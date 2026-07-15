@@ -1,0 +1,43 @@
+# Manual deploy to Cloudflare Pages via Wrangler.
+#
+# This is OPTIONAL. The recommended setup is Cloudflare Pages' Git integration
+# (build on push), which needs no workflow file. This workflow is manual-only
+# (workflow_dispatch) so it never fails automatically before secrets are set.
+#
+# Required repository secrets:
+#   CLOUDFLARE_API_TOKEN   - token with "Cloudflare Pages: Edit" permission
+#   CLOUDFLARE_ACCOUNT_ID  - your Cloudflare account id
+# Required repository variables (or hardcode below):
+#   PLAUSIBLE_DOMAIN, PLAUSIBLE_SRC
+
+name: Deploy editor to Cloudflare Pages
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build
+        env:
+          ANALYTICS_ENABLED: 'true'
+          PLAUSIBLE_DOMAIN: ${{ vars.PLAUSIBLE_DOMAIN }}
+          PLAUSIBLE_SRC: ${{ vars.PLAUSIBLE_SRC }}
+        run: npm run build
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=live-editor
