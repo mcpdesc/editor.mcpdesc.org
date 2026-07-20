@@ -46,8 +46,7 @@ EDITOR_DIST_DIR=../mcptoolkit-editor/dist npm run build
 | Variable | Default | Purpose |
 |----------|---------|---------|
 | `ANALYTICS_ENABLED` | `false` | Inject Plausible only when `true` (production). |
-| `PLAUSIBLE_DOMAIN` | `editor.mcpdesc.org` | Plausible `data-domain`. |
-| `PLAUSIBLE_SRC` | `https://plausible.io/js/script.js` | Plausible script source. |
+| `PLAUSIBLE_SRC` | `https://plausible.io/js/pa-ui2MvTKAF9Y_RM1N1h2LS.js` | Site-specific Plausible script (identifies the site; no `data-domain` needed). |
 | `EDITOR_DIST_DIR` | _(unset)_ | Local editor `dist/` to consume instead of the npm package. |
 
 Copy `.env.example` to `.env` for local overrides. Analytics stays **off** unless
@@ -71,8 +70,16 @@ manual GitHub Actions deploy is provided in `.github/workflows/deploy.yml`.
 
 `overlay/_headers` ships baseline security headers plus a strict Content-Security-Policy.
 The CSP was validated against the self-hosted editor build (Monaco loads from same-origin
-workers — no runtime CDN) and Plausible; the editor mounts with zero CSP violations. If
-you disable analytics, the `https://plausible.io` allowances are simply unused.
+workers — no runtime CDN) and Plausible; the editor mounts with zero CSP violations. When
+analytics is enabled, the build adds a SHA-256 hash for Plausible's inline init script to
+`script-src` (so no `'unsafe-inline'` is needed); if you disable analytics, the
+`https://plausible.io` allowances are simply unused.
+
+> Plausible also distributes this tracker as an npm module
+> ([`@plausible-analytics/tracker`](https://www.npmjs.com/package/@plausible-analytics/tracker)),
+> intended to be imported and bundled into an app. This hosting repo does not bundle — it only
+> injects a `<script>` tag into the prebuilt editor build — so it uses the hosted script.
+> Bundling the npm module would belong upstream in the editor.
 
 ## License
 

@@ -5,6 +5,23 @@ All notable changes to the hosting of the MCP Description Editor are documented 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-07-20
+
+### Changed
+
+- Updated the Plausible analytics injection to Plausible's current script snippet
+  (an `async` site-specific `pa-*.js` script plus an inline `plausible.init()`),
+  injected at the top of `<head>`.
+- `PLAUSIBLE_SRC` now defaults to the site-specific hosted script
+  (`https://plausible.io/js/pa-ui2MvTKAF9Y_RM1N1h2LS.js`).
+- Allowed the inline init under the strict CSP via a build-computed SHA-256
+  `script-src` hash, so no `'unsafe-inline'` is required.
+
+### Removed
+
+- Dropped the now-unused `PLAUSIBLE_DOMAIN` env var; the new script format
+  identifies the site by its script file rather than a `data-domain` attribute.
+
 ## [0.1.0] - 2026-07-14
 
 ### Added
