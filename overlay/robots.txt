@@ -1,0 +1,5 @@
+# editor.mcpdesc.org — MCP Description Editor
+# Single-page static app. Crawling and AI access are welcome.
+
+User-agent: *
+Allow: /

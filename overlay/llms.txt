@@ -1,0 +1,32 @@
+# MCP Description Editor
+
+> A portable, browser-based editor for authoring and validating MCP (Model
+> Context Protocol) description documents. Hosted at editor.mcpdesc.org, it runs
+> entirely client-side as a static single-page app — no backend, no account, and
+> your document never leaves the browser.
+
+The editor is a host-neutral tool (similar to Swagger Editor): the same portable
+build can be deployed anywhere. This site, editor.mcpdesc.org, is one such host.
+Editor behavior and features live upstream; this domain only provides hosting
+(security headers and optional privacy-friendly analytics).
+
+## Primary
+
+- [Editor](https://editor.mcpdesc.org): The live single-page MCP Description Editor.
+
+## Source
+
+- [Editor source (upstream)](https://github.com/cisco-open/mcptoolkit-editor): The portable editor implementation and features.
+- [Hosting repository](https://github.com/mcpdesc/editor.mcpdesc.org): Deployment/hosting layer for editor.mcpdesc.org (headers, analytics, Cloudflare Pages).
+
+## Related
+
+- [mcpdesc.org](https://mcpdesc.org): Companion site for the MCP description effort.
+- [mcpdesc.org repository](https://github.com/mcpdesc/mcpdesc.org): Source for the companion site.
+- [Model Context Protocol](https://modelcontextprotocol.io): Background on MCP.
+
+## Notes
+
+- Single-page application; there is no sitemap because there is effectively one page.
+- Fully static and client-side; the editor processes documents locally in the browser.
+- Licensed under Apache-2.0.
